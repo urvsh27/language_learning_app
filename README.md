@@ -1,5 +1,4 @@
-# Emitrr
-Quiz app
+# Quiz app
 
 # Tech stack : PostgreSQL, Nodejs, Express js, React js
 1. git clone
