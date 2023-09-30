@@ -1,0 +1,14 @@
+{
+  "development": {
+    "username": "urvishmakwana2427",
+    "password": "xGu8Kbgf9zcI",
+    "database": "neondb",
+    "host":"ep-winter-lake-03491917.us-east-2.aws.neon.tech",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true
+      }
+    }
+  }
+}
