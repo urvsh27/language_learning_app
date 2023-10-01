@@ -32,7 +32,6 @@ module.exports = {
         [['id', 'exerciseId'], 'totalMarks', 'exerciseWeightage'],
         true
       );
-      console.log(exerciseData);
       if (IsNotNullOrEmpty(exerciseData));
       {
         let usersDetails = await globalController.getModuleDetails(

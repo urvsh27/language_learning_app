@@ -1,0 +1,60 @@
+/* home.css */
+.home-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* You can adjust the height as needed */
+}
+
+.hero-div {
+  display: flex;
+  flex-direction: row; /* This sets the text and image side by side */
+  align-items: center;
+  width: 80%; /* Adjust the width as needed */
+  max-width: 1200px; /* Set a max width for responsiveness */
+  margin: 0 auto; /* Center the content horizontally */
+}
+
+.hero-text {
+  font-size: 24px; /* Adjust the font size as needed */
+  padding: 20px; /* Add padding to the text */
+}
+
+.hero-image {
+  max-width: 50%; /* Ensure the image doesn't exceed its container */
+  height: auto; /* Maintain the image's aspect ratio */
+  padding: 20px;
+  border-radius: 30px; /* Add padding to the image */
+}
+
+
+.main-div {
+  margin-top: 50px;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.home-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  height: 300px; /* Set a fixed height for the card */
+}
+
+.sidebar-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ensure the content is vertically centered */
+}
+
+.left-text-div{
+margin-top: 120px;
+font-size: 13px;
+font-family: 'Poppins', sans-serif;
+}

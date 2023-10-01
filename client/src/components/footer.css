@@ -1,0 +1,18 @@
+
+.footer {
+    background-color: #61dafb;
+    color: rgb(0, 0, 0);
+    padding: 25px;
+  }
+  
+  .footer a {
+    color: rgb(0, 0, 0) !important;
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  .footer a:hover {
+    border-bottom: 3px solid rgb(0, 0, 0) !important;
+  }
+
+   

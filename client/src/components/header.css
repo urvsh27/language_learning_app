@@ -1,0 +1,26 @@
+.navbar-div{
+    display: flex;
+    justify-content: center;
+    background-color: #61dafb; 
+}
+
+.navbar {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    line-height: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    width: 85%;
+    margin-top: 10px;
+    border: solid black;
+    border-width: 2px 5px 5px 2px; 
+  }
+  
+  .nav-link {
+    font-weight: 500 !important;
+  }
+  
+  .navbar-brand {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+  }
