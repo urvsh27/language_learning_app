@@ -14,15 +14,15 @@
 # Working  
 1. So, I have used PERN stack for this particular app and sequelize as an ORM.
 2. It is fully dynamic, excluding some stuffs that can not be done from frontend.
-3. User can login and register thorogh it's relavant pages.
+3. User can login and register thorough it's relavant pages.
 4. One user can have multiple roles. As of now I have included user,admin,moderator roles.
 5. Admin creation has been done via seeder files. (We can add user roles edit feature.)
-6. Admin can view the languages which are active. Languages arw coming from server.
+6. Admin can view the languages which are active. Languages are coming from server.
 7. Each languages can have multiple exercises.
 8. Exercise has the questions, weightage, totalMarks.
 9. Admin can add, update, delete, activate, deactivate the exercises.
 10. Admin will decide which exercise will be easy, medium, hard by adding the question, marks and weightage to it.
-11. In question module question, It can have only 4 options and one correct answer. (We can add multiple options adding and multiple correct option feature.)
+11. In question module the question can have only 4 options and one correct answer. (We can add multiple options adding and multiple correct option feature.)
 12. Once admin add the exercise by default it will be set to deactivate. 
 13. Only after adding the questions to that particular exercise and adding the weightage admin can activate the exercise.
 14. If the exercise is active it will be shown to the user dashboard.
@@ -32,7 +32,7 @@
 18. After completing the quiz they can see the obtained marks and result.
 19. Users can also view the leaderboard by languages. They can view their own progess and can reset the progress if they want.
 20. User proficiency has been calculated by ((obtained marks/ total marks) * exerciseWeightage).
-21. On admin panel admin can view the all users list.
+21. On admin panel admin can view all the users list.
 
 Postman collection link : 
 https://api.postman.com/collections/24529476-593677a2-669c-4565-b009-6bbd0266716f?access_key=PMAT-01HBP2KXJAG3DQPG0HKDX1QAGB
