@@ -262,6 +262,10 @@ const Exercises = () => {
                       <p className="exercise-paragraphs">
                         Total Active Questions: {exercise.questions.length}
                       </p>
+                      <p className="exercise-paragraphs">
+                      Total Marks : {exercise.totalMarks}
+                      </p>
+                      
                       <div className="d-flex gap-2">
                         {/* Edit Exercise Start */}
 

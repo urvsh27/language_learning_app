@@ -16,7 +16,7 @@ import Questions from './pages/admin/Questions';
 import LanguagePreference from './pages/user/LanguagePreference';
 import UserExercises from './pages/user/UserExercises';
 import QuizDashboard from './pages/user/QuizDashboard';
-
+import UserProgress from './pages/user/UserProgress';
 function App() {
   return (
     <>
@@ -41,6 +41,9 @@ function App() {
         </Route>
         <Route path="/quiz-dashboard" element={<UserPrivateRoutes />}>
           <Route path="" element={<QuizDashboard />} />
+        </Route>
+        <Route path="/user-progress" element={<UserPrivateRoutes />}>
+          <Route path="" element={<UserProgress />} />
         </Route>
         {/* Users Private routes */}
 

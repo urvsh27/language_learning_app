@@ -2,6 +2,7 @@
 const usersModel = require('../models').users;
 const exercisesModel = require('../models').exercises;
 const resultsModel = require('../models').results;
+const languagesModel = require('../models').languages;
 
 //Import controllers
 const globalController = require('./globalController');
@@ -10,12 +11,11 @@ const globalController = require('./globalController');
 const {
   successArrayResponse,
   errorArrayResponse,
-
+  successObjectResponse,
+  errorObjectResponse,
 } = require('../utils/response');
 const { IsNotNullOrEmpty } = require('../utils/enum');
-const {
-  resultsMessages,
-} = require('../utils/messages');
+const { resultsMessages, userMessages } = require('../utils/messages');
 const Sequelize = require('sequelize');
 const db = require('../models/index');
 const { Op } = require('sequelize');
@@ -37,9 +37,13 @@ module.exports = {
         let usersDetails = await globalController.getModuleDetails(
           usersModel,
           'findAll',
-          { email: {
-            [Op.not]: 'admin@gmail.com'
-          }, activated: true, deleted: false },
+          {
+            email: {
+              [Op.not]: 'admin@gmail.com',
+            },
+            activated: true,
+            deleted: false,
+          },
           ['id', 'name'],
           true
         );
@@ -74,7 +78,7 @@ module.exports = {
                 } else {
                   return {
                     exerciseId: result.exerciseId,
-                    calculationResult: 'Exercise ID not found in exerciseData',
+                    calculationResult: 0,
                   };
                 }
               });
@@ -113,6 +117,70 @@ module.exports = {
         }
         successArrRes.message = resultsMessages.leaderBoardResultFound;
       }
+      res.status(201).send(successArrRes);
+    } catch (error) {
+      errorArrRes.message = error.message;
+      res.status(400).send(errorArrRes);
+    }
+  },
+
+  async geUserProgress(req, res) {
+    let successArrRes = successArrayResponse;
+    let errorArrRes = errorArrayResponse;
+    try {
+      const userProgressDetails = await globalController.getUserProgressDetails(
+        req,
+        res
+      );
+
+      successArrRes.message = userMessages.userProgressDetailsFound;
+      successArrRes.data = userProgressDetails;
+      res.status(201).send(successArrRes);
+    } catch (error) {
+      errorArrRes.message = error.message;
+      res.status(400).send(errorArrRes);
+    }
+  },
+
+  async deleteUserProgress(req, res) {
+    let successArrRes = successArrayResponse;
+    let errorArrRes = errorArrayResponse;
+    try {
+      const userId = req.headers.loggedInUserId;
+      const resultsDetails = await globalController.getModuleDetails(
+        resultsModel,
+        'findAll',
+        { userId: userId },
+        ['id', 'exerciseId', 'userId'],
+        true,
+        [{
+          model : exercisesModel,
+          attributes : [],
+          where : {languageId : req.params.id},
+          required : true
+        }],
+      );
+      if(IsNotNullOrEmpty(resultsDetails)){
+        for (let i = 0; i < resultsDetails.length; i++) {
+          await resultsModel.destroy({
+            where: {
+              exerciseId : resultsDetails[i].exerciseId,
+              userId: userId
+            },
+          })
+          .catch(async (error) => {
+            let message =   
+              await globalController.getMessageFromErrorInstance(error);
+            if (message) {
+              throw new Error(message);
+            } else {
+              throw new Error(error.message);
+            }
+          });
+        }
+      }
+      successArrRes.message = userMessages.userProgressDeleteSuccess;
+      successArrRes.data = [];
       res.status(201).send(successArrRes);
     } catch (error) {
       errorArrRes.message = error.message;

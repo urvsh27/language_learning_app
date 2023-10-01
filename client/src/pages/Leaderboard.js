@@ -66,7 +66,7 @@ const Leaderboard = () => {
                 {users.map((user) => (
                   <tr key={user.id}>
                     <td>{user.name}</td>
-                    <td>{user.languagePercentage === 0 ? user.languagePercentage : user.languagePercentage.toFixed(1)} % </td>
+                    <td>{user.languagePercentage} % </td>
                     <td>{user.proficiencyLevel}</td>
                   </tr>
                 ))}

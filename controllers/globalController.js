@@ -19,6 +19,7 @@ const {
 } = require('../utils/messages');
 const Sequelize = require('sequelize');
 const db = require('../models/index');
+const { Op } = require('sequelize');
 
 module.exports = {
   /*
@@ -231,6 +232,7 @@ module.exports = {
       return [
         ['id', 'exerciseId'],
         ['name', 'exerciseName'],
+        'totalMarks',
         'exerciseWeightage',
         'activated',
         'deleted',
@@ -273,7 +275,7 @@ module.exports = {
       await exercisesModel
         .update(updateObject, { where: { id: exerciseId } }, { transaction: t })
         .catch(async (error) => {
-          let message = await globalController.getMessageFromErrorInstance(
+          let message = await this.getMessageFromErrorInstance(
             error
           );
           if (message) {
@@ -299,7 +301,7 @@ module.exports = {
       await questionsModel
         .update(updateObject, { where: { id: questionId } }, { transaction: t })
         .catch(async (error) => {
-          let message = await globalController.getMessageFromErrorInstance(
+          let message = await this.getMessageFromErrorInstance(
             error
           );
           if (message) {
@@ -321,7 +323,7 @@ module.exports = {
   async createOrUpdateUserExerciseResult(
     userObtainedMarks,
     quizExerciseId,
-    loggedInUserId,
+    loggedInUserId
   ) {
     let returnState = false;
     try {
@@ -338,12 +340,13 @@ module.exports = {
         },
         async (t1) => {
           if (IsNotNullOrEmpty(resultsDetails.id)) {
-           await resultsModel
+            await resultsModel
               .update(
                 {
                   obtainedMarks: userObtainedMarks,
-                },{
-                  where : {
+                },
+                {
+                  where: {
                     exerciseId: quizExerciseId,
                     userId: loggedInUserId,
                   },
@@ -362,7 +365,7 @@ module.exports = {
                 }
               });
           } else {
-           await resultsModel
+            await resultsModel
               .create(
                 {
                   obtainedMarks: userObtainedMarks,
@@ -387,25 +390,32 @@ module.exports = {
                 }
               });
           }
-        });
-     return returnState;
+        }
+      );
+      return returnState;
     } catch (error) {
       throw new Error(error.message);
     }
   },
 
   /*
-  * check Exercise Activate True Condition
-  */
-  async checkExerciseActivateTrueCondition(exerciseId, weightage){
+   * check Exercise Activate True Condition
+   */
+  async checkExerciseActivateTrueCondition(exerciseId, weightage) {
     try {
-      const questionDetails = await this.getModuleDetails(questionsModel,'findAll',{exerciseId: exerciseId, activated:true, deleted:false},['id'],true);
-      if(IsNullOrEmpty(questionDetails)){
+      const questionDetails = await this.getModuleDetails(
+        questionsModel,
+        'findAll',
+        { exerciseId: exerciseId, activated: true, deleted: false },
+        ['id'],
+        true
+      );
+      if (IsNullOrEmpty(questionDetails)) {
         throw new Error(questionsMessages.addQuestionsToExercise);
-      }else{
-        if(weightage=="0"){
+      } else {
+        if (weightage == '0') {
           throw new Error(questionsMessages.addWeightageToExercise);
-        }else{
+        } else {
           return true;
         }
       }
@@ -414,31 +424,36 @@ module.exports = {
     }
   },
 
-
   /*
-  * Find exercise total marks
-  */
-async findExerciseTotalMarks(exerciseId){
-try {
-  const sum = await questionsModel.findAll({
-    attributes: [
-      'exerciseId',
-      [Sequelize.fn('SUM', Sequelize.cast(Sequelize.col('marks'), 'INTEGER')), 'total_marks'],
-    ],
-    where: { exerciseId: exerciseId },
-    group: ['exerciseId'],
-    raw: true,
-  });
-  return IsNotNullOrEmpty(sum[0].total_marks) ? sum[0].total_marks : 0;
-} catch (error) {
-  throw new Error(error.message);
-}
- },
+   * Find exercise total marks
+   */
+  async findExerciseTotalMarks(exerciseId) {
+    try {
+      const sum = await questionsModel.findAll({
+        attributes: [
+          'exerciseId',
+          [
+            Sequelize.fn(
+              'SUM',
+              Sequelize.cast(Sequelize.col('marks'), 'INTEGER')
+            ),
+            'total_marks',
+          ],
+        ],
+        where: { exerciseId: exerciseId },
+        group: ['exerciseId'],
+        raw: true,
+      });
+      return IsNotNullOrEmpty(sum[0].total_marks) ? sum[0].total_marks : 0;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 
   /*
    Update exercise total marks 
   */
-   async updateExerciseTotalMarks(exerciseId){
+  async updateExerciseTotalMarks(exerciseId) {
     try {
       const exerciseTotalMarks = await this.findExerciseTotalMarks(exerciseId);
       await db.sequelize.transaction(
@@ -446,13 +461,117 @@ try {
           deferrable: Sequelize.Deferrable.SET_DEFERRED,
         },
         async (t1) => {
-          await exercisesModel.update({totalMarks:exerciseTotalMarks},{where : { id : exerciseId}}, {transaction:t1}).catch((error)=>{
-            throw new Error(error.message);
-          });
-        });
+          await exercisesModel
+            .update(
+              { totalMarks: exerciseTotalMarks },
+              { where: { id: exerciseId } },
+              { transaction: t1 }
+            )
+            .catch((error) => {
+              throw new Error(error.message);
+            });
+        }
+      );
       return true;
     } catch (error) {
       throw new Error(error.message);
     }
-   }
+  },
+
+  /*
+   Get single user progress
+   */
+  async getUserProgressDetails(req, res) {
+    try {
+      let userProgressDetails = [];
+      let exerciseData = await this.getModuleDetails(
+        exercisesModel,
+        'findAll',
+        { languageId: req.params.id },
+        [['id', 'exerciseId'], 'totalMarks', 'exerciseWeightage'],
+        true
+      );
+      if (IsNotNullOrEmpty(exerciseData));
+      {
+        let usersDetails = await this.getModuleDetails(
+          usersModel,
+          'findAll',
+          { id :req.headers.loggedInUserId , activated: true, deleted: false },
+          ['id', 'name'],
+          true
+        );
+        for (let i = 0; i < usersDetails.length; i++) {
+          let languagePercentage = 0;
+          let resultData = await this.getModuleDetails(
+            resultsModel,
+            'findAll',
+            { userId: usersDetails[i].id },
+            ['id', 'userId', 'exerciseId', 'obtainedMarks'],
+            true
+          );
+          if (IsNotNullOrEmpty(resultData)) {
+            if (exerciseData.length > 0) {
+              const finalCalculation = resultData.map((result) => {
+                const matchingExercise = exerciseData.find(
+                  (exercise) => exercise.exerciseId === result.exerciseId
+                );
+
+                if (matchingExercise) {
+                  const obtainedMarks = parseFloat(result.obtainedMarks);
+                  const totalMarks = parseFloat(matchingExercise.totalMarks);
+                  const exerciseWeightage = parseFloat(
+                    matchingExercise.exerciseWeightage
+                  );
+                  const calculation =
+                    (obtainedMarks / totalMarks) * exerciseWeightage;
+                  return {
+                    exerciseId: result.exerciseId,
+                    calculationResult: calculation,
+                  };
+                } else {
+                  return {
+                    exerciseId: result.exerciseId,
+                    calculationResult: 0,
+                  };
+                }
+              });
+              languagePercentage = finalCalculation.reduce(
+                (total, item) => total + item.calculationResult,
+                0
+              );
+            }
+          }
+
+          usersDetails[i].languagePercentage = IsNotNullOrEmpty(
+            languagePercentage
+          )
+            ? languagePercentage
+            : '0';
+          switch (true) {
+            case languagePercentage >= 91 && languagePercentage <= 100:
+              usersDetails[i].proficiencyLevel = 'Fluent';
+              break;
+            case languagePercentage >= 71 && languagePercentage <= 90:
+              usersDetails[i].proficiencyLevel = 'Advanced';
+              break;
+            case languagePercentage >= 41 && languagePercentage <= 70:
+              usersDetails[i].proficiencyLevel = 'Intermediate';
+              break;
+            case languagePercentage >= 0 && languagePercentage <= 40:
+              usersDetails[i].proficiencyLevel = 'Beginner';
+              break;
+            default:
+              usersDetails[i].proficiencyLevel = 'Beginner';
+          }
+          const sortedUsersDetails = usersDetails.sort(
+            (a, b) => b.languagePercentage - a.languagePercentage
+          );
+          userProgressDetails =  sortedUsersDetails;
+        }
+      }
+      return userProgressDetails;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };

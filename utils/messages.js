@@ -15,7 +15,10 @@ const userMessages = {
   userNotFound : 'User not found with this email address.',
   userLoginSuccess : 'User login successfully.',
   userLoginFailure : 'User login failed, please check email and password.',
-  usersListFound : 'Users list found successfully'
+  usersListFound : 'Users list found successfully',
+  userProgressDetailsFound : 'User progress details found successfully.',
+  userProgressDeleteSuccess : 'User progress delete successfully.',
+  userProgressDeleteFail : 'Fail to delete user progress.',
 };
 
 const roleMessages = {
