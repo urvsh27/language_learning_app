@@ -44,7 +44,7 @@ router.post('/question', authController.jwtAdminAuthValidate,validator('question
 // Get questions by exercise
 router.get('/questions/:id', authController.jwtAdminAuthValidate,validator('moduleId'), questionsController.getAllQuestions);
 // Update question
-router.patch('/question/:id', authController.jwtAdminAuthValidate,validator('moduleId'), questionsController.updateQuestion);
+router.patch('/question/:id', authController.jwtAdminAuthValidate,validator('moduleId'),validator('questionUpdate'), questionsController.updateQuestion);
 
 // Get User Exercises by Language
 router.get('/user-exercises/:id', authController.jwtUserAuthValidate, validator('moduleId'),exercisesController.getAllUserExercises);
@@ -57,6 +57,6 @@ router.get('/quiz-questions/:id', authController.jwtUserAuthValidate, validator(
 // Post quiz answers
 router.post('/end-quiz/:id', authController.jwtUserAuthValidate,validator('moduleId'), validator('endQuiz'),quizzesController.endQuiz);
 // Get leaderboard by language
-router.get('/leaderboard', authController.jwtUserAuthValidate,resultsController.getUsersLeaderboard);
+router.get('/leaderboard/:id', authController.jwtUserAuthValidate,validator('moduleId'),resultsController.getUsersLeaderboard);
 
 module.exports = router;

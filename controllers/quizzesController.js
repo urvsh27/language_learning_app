@@ -79,7 +79,6 @@ module.exports = {
     let successObjectRes = successObjectResponse;
     let errorObjectRes = errorObjectResponse;
     try {
-      console.log(req.body);
       let obtainedMarks = 0;
       const exerciseId = req.params.id;
       const requestBodyQuizArray= req.body.userEndQuizData;
@@ -95,7 +94,6 @@ module.exports = {
               const correspondingQuestion = questionsDetails.find(question => question.questionId === userQuizQuestion.questionId);
               if (correspondingQuestion) {
                 parseInt(correspondingQuestion.correctAnswer);
-                console.log('selected', userQuizQuestion.selectedOptionIndex)
                 if (correspondingQuestion.correctAnswer == userQuizQuestion.selectedOptionIndex) {
                   obtainedMarks += parseInt(correspondingQuestion.marks);
                 }

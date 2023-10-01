@@ -42,7 +42,6 @@ module.exports = {
           replacements: { adminEmail: adminUser.email },
         }
       );
-      console.log(adminUser);
       if (IsNotNullOrEmpty(usersQuery)) {
         await queryInterface.bulkInsert(
           'user_roles',
