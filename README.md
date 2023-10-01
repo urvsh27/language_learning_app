@@ -10,6 +10,28 @@
 7. move back to server
 8. npm run start
 11. I have added the login details on Admin and User Login Screen.
+    
+# Working  
+1. So, I have used PERN stack for this particular app and sequelize as an ORM.
+2. It is fully dynamic, excluding some stuffs that can not be done from frontend.
+3. User can login and register thorogh it's relavant pages.
+4. One use can have multiple roles. As of now I have included user,admin,moderator roles.
+5. Admin creation has been done via seeder files. (We can add user roles edit feature.)
+6. Admin can view the languages which are active. Languages arw coming from server.
+7. Each languages can have multiple exercises.
+8. Exercise has the questions, weightage, totalMarks.
+9. Admin can add, update, delete, activate, deactivate the exercises.
+10. Once admin add the exercise by default it will be set to deactivate. 
+11. Only after adding the questions to that particular exercise and adding the weightage admin can activate the exercise.
+12. If the exercise is active it will show to the user dashboard.
+13. Coming to the user dashboard, user can manage the language preference.
+14. As of now users can add the language preference and can not perform any other actions on langauges.
+15. After adding the preference they can view the exercises and give the quizzes.
+16. After completing the quiz they can see the obtained marks.
+17. Users can also view the leaderboard by languages and they can view their own progess and can reset the progress if they want.
+18. User proficiency has been calculated by ((obtained marks/ total marks) * exerciseWeightage).
+19. On admin panel admin can view the all users list.
+ 
 
 # Screenshots
 home
