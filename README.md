@@ -15,23 +15,31 @@
 1. So, I have used PERN stack for this particular app and sequelize as an ORM.
 2. It is fully dynamic, excluding some stuffs that can not be done from frontend.
 3. User can login and register thorogh it's relavant pages.
-4. One use can have multiple roles. As of now I have included user,admin,moderator roles.
+4. One user can have multiple roles. As of now I have included user,admin,moderator roles.
 5. Admin creation has been done via seeder files. (We can add user roles edit feature.)
 6. Admin can view the languages which are active. Languages arw coming from server.
 7. Each languages can have multiple exercises.
 8. Exercise has the questions, weightage, totalMarks.
 9. Admin can add, update, delete, activate, deactivate the exercises.
-10. Once admin add the exercise by default it will be set to deactivate. 
-11. Only after adding the questions to that particular exercise and adding the weightage admin can activate the exercise.
-12. If the exercise is active it will show to the user dashboard.
-13. Coming to the user dashboard, user can manage the language preference.
-14. As of now users can add the language preference and can not perform any other actions on langauges.
-15. After adding the preference they can view the exercises and give the quizzes.
-16. After completing the quiz they can see the obtained marks.
-17. Users can also view the leaderboard by languages and they can view their own progess and can reset the progress if they want.
-18. User proficiency has been calculated by ((obtained marks/ total marks) * exerciseWeightage).
-19. On admin panel admin can view the all users list.
- 
+10. Admin will decide which exercise will be easy, medium, hard by adding the question, marks and weightage to it.
+11. In question module question, It can have only 4 options and one correct answer. (We can add multiple options adding and multiple correct option feature.)
+12. Once admin add the exercise by default it will be set to deactivate. 
+13. Only after adding the questions to that particular exercise and adding the weightage admin can activate the exercise.
+14. If the exercise is active it will be shown to the user dashboard.
+15. Coming to the user dashboard, user can manage the language preference.
+16. As of now users can add the language preference and can not perform any other actions on it such as removing the preference.
+17. After adding the preference they can view the exercises and give the quizzes.
+18. After completing the quiz they can see the obtained marks and result.
+19. Users can also view the leaderboard by languages. They can view their own progess and can reset the progress if they want.
+20. User proficiency has been calculated by ((obtained marks/ total marks) * exerciseWeightage).
+21. On admin panel admin can view the all users list.
+
+Note : 
+- The response time of the apis might be slower as I am using neon tech' online PostgreSQL.
+- Let me know, If you're facing any issues in setting up the project or any database rrors.
+- Contact :
+  📩 - urvishfunnels@gmail.com
+  📞 - 9512120054
 
 # Screenshots
 home
