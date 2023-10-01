@@ -3,7 +3,7 @@
 # Tech stack : PostgreSQL, Nodejs, Express js, React js
 1. git clone
 2. npm install
-3. copy the .env file from here 👉
+3. copy the .env file from envFile
 4. cd client
 5. npm install
 6. npm run start
