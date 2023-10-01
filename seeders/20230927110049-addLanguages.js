@@ -69,7 +69,6 @@ module.exports = {
     ];
     if (!existingLanguages.length > 0) {
       for (let i = 0; i < languagesToInsert.length; i++) {
-        console.log(languagesToInsert[i]);
         if (!existingLanguages.includes(languagesToInsert[i].name)) {
           await queryInterface.bulkInsert(
             'languages',

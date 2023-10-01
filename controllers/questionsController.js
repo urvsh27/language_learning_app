@@ -35,7 +35,7 @@ module.exports = {
       const exerciseDetails = await globalController.getModuleDetails(
         exercisesModel,
         'findOne',
-        { id: req.body.exerciseId },
+        { id: req.body.exerciseId},
         ['id'],
         true
       );
@@ -47,7 +47,7 @@ module.exports = {
           async (t1) => {
             await questionsModel
               .create(req.body, { transaction: t1 })
-              .then((newQuestionDetails) => {
+              .then(async (newQuestionDetails) => {
                 if (newQuestionDetails.id) {
                   newQuestionId = newQuestionDetails.id;
                 } else {
@@ -68,6 +68,7 @@ module.exports = {
       } else {
         throw new Error(exercisesMessages.exerciseNotFound);
       }
+      await globalController.updateExerciseTotalMarks(exerciseDetails.id);
       successObjectRes.message = questionsMessages.questionCreateSuccess;
       successObjectRes.data = await globalController.getModuleDetails(
         questionsModel,
@@ -146,12 +147,11 @@ module.exports = {
     let successObjectRes = successObjectResponse;
     let errorObjectRes = errorObjectResponse;
     try {
-      console.log(req.body);
       const questionId = req.params.id;
       const questionDetails = await globalController.getModuleDetails(
         questionsModel,
         'findOne',
-        { id: req.params.id , deleted : false},
+        { id: req.params.id },
         ['id','marks', 'deleted', 'exerciseId'],
         true
       );
@@ -163,17 +163,16 @@ module.exports = {
           async (t1) => {
             if (req.body.deleted === true) {             
               await globalController.updateQuestion(questionId, req.body, t1);
-              const updateExerciseMarks = await globalController.updateExerciseTotalMarks(questionDetails.exerciseId);
-
+               await globalController.updateExerciseTotalMarks(questionDetails.exerciseId);
             } 
             await globalController.updateQuestion(questionId, req.body, t1);
           }
         );
       } else {
         throw new Error(exercisesMessages.exerciseNotFound);
-      }
-      successObjectRes.message = exercisesMessages.exerciseUpdateSuccess;
-      successObjectRes.data = await globalController.getModuleDetails(
+      }  
+      await globalController.updateExerciseTotalMarks(questionDetails.exerciseId);
+      const updatedQuestionDetails =  await globalController.getModuleDetails(
         questionsModel,
         'findOne',
         { id: questionId },
@@ -189,6 +188,7 @@ module.exports = {
         true
       );
       successObjectRes.message = questionsMessages.questionUpdateSuccess;
+      successObjectRes.data  =updatedQuestionDetails
       res.status(201).send(successObjectRes);
     } catch (error) {
       errorObjectRes.message = error.message;

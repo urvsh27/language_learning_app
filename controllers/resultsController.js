@@ -35,79 +35,93 @@ module.exports = {
     let successArrRes = successArrayResponse;
     let errorArrRes = errorArrayResponse;
     try {
-      let getUsersLeaderboardDetails = [];
-      // await usersModel.findAll({
-      //   attributes : ['id','name'],
-      //   where : {activated : true, deleted : false},
-      //   include: [{
-      //     model : resultsModel,
-      //     attributes : ['id','userId', 'exerciseId' , 'obtainedMarks'],
-      //     include : [{
-      //       model : exercisesModel,
-      //       attributes : [['id','exerciseId'], 'totalMarks'],
-      //       include : [{
-      //         model : questionsModel,
-      //         attributes : [['id','questionId'], 'marks'],
-      //       }],
-      //     }],
-      //     required : false,
-      //   }, {
-      //     model : userPreferencesModel,
-      //     attributes : ['id','userId', 'languageId']
-      //   }],
-      //   required : false,
-      //   raw: false,
-      // })
-
-      const exerciseData = await globalController.getModuleDetails(
+      let exerciseData = await globalController.getModuleDetails(
         exercisesModel,
         'findAll',
-        { languageId: 'fbb9e4c3-924f-4f5e-92e8-fa42ec31c912' },
+        { languageId: req.params.id },
         [['id', 'exerciseId'], 'totalMarks', 'exerciseWeightage'],
         true
       );
       console.log(exerciseData);
-      const resultData = await globalController.getModuleDetails(
-        resultsModel,
-        'findAll',
-        {},
-        ['id', 'userId', 'exerciseId', 'obtainedMarks'],
-        true
-      );
-
-      console.log(resultData);
-      const finalCalculation = resultData.map((result) => {
-        const matchingExercise = exerciseData.find(
-          (exercise) => exercise.exerciseId === result.exerciseId
+      if (IsNotNullOrEmpty(exerciseData));
+      {
+        let usersDetails = await globalController.getModuleDetails(
+          usersModel,
+          'findAll',
+          { activated: true, deleted: false },
+          ['id', 'name'],
+          true
         );
-
-        if (matchingExercise) {
-          const obtainedMarks = parseFloat(result.obtainedMarks);
-          const totalMarks = parseFloat(matchingExercise.totalMarks);
-          const exerciseWeightage = parseFloat(
-            matchingExercise.exerciseWeightage
+        for (let i = 0; i < usersDetails.length; i++) {
+          let languagePercentage = 0;
+          let resultData = await globalController.getModuleDetails(
+            resultsModel,
+            'findAll',
+            { userId: usersDetails[i].id },
+            ['id', 'userId', 'exerciseId', 'obtainedMarks'],
+            true
           );
-          const calculation = (obtainedMarks / totalMarks) * exerciseWeightage;
-          return {
-            exerciseId: result.exerciseId,
-            calculationResult: calculation,
-          };
-        } else {
-          return {
-            exerciseId: result.exerciseId,
-            calculationResult: 'Exercise ID not found in exerciseData',
-          };
+          if (IsNotNullOrEmpty(resultData)) {
+            if (exerciseData.length > 0) {
+              const finalCalculation = resultData.map((result) => {
+                const matchingExercise = exerciseData.find(
+                  (exercise) => exercise.exerciseId === result.exerciseId
+                );
+
+                if (matchingExercise) {
+                  const obtainedMarks = parseFloat(result.obtainedMarks);
+                  const totalMarks = parseFloat(matchingExercise.totalMarks);
+                  const exerciseWeightage = parseFloat(
+                    matchingExercise.exerciseWeightage
+                  );
+                  const calculation =
+                    (obtainedMarks / totalMarks) * exerciseWeightage;
+                  return {
+                    exerciseId: result.exerciseId,
+                    calculationResult: calculation,
+                  };
+                } else {
+                  return {
+                    exerciseId: result.exerciseId,
+                    calculationResult: 'Exercise ID not found in exerciseData',
+                  };
+                }
+              });
+              languagePercentage = finalCalculation.reduce(
+                (total, item) => total + item.calculationResult,
+                0
+              );
+            }
+          }
+
+          usersDetails[i].languagePercentage = IsNotNullOrEmpty(
+            languagePercentage
+          )
+            ? languagePercentage
+            : '0';
+          switch (true) {
+            case languagePercentage >= 91 && languagePercentage <= 100:
+              usersDetails[i].proficiencyLevel = 'Fluent';
+              break;
+            case languagePercentage >= 71 && languagePercentage <= 90:
+              usersDetails[i].proficiencyLevel = 'Advanced';
+              break;
+            case languagePercentage >= 41 && languagePercentage <= 70:
+              usersDetails[i].proficiencyLevel = 'Intermediate';
+              break;
+            case languagePercentage >= 0 && languagePercentage <= 40:
+              usersDetails[i].proficiencyLevel = 'Beginner';
+              break;
+            default:
+              usersDetails[i].proficiencyLevel = 'Beginner';
+          }
+          const sortedUsersDetails = usersDetails.sort(
+            (a, b) => b.languagePercentage - a.languagePercentage
+          );
+          successArrRes.data = sortedUsersDetails;
         }
-      });
-
-      console.log(finalCalculation);
-
-      const sum = finalCalculation.reduce(
-        (total, item) => total + item.calculationResult,
-        0
-      );
-      console.log('Sum of final calculation results:', sum);
-      successArrRes.data = { finalCalculation, sum };
+        successArrRes.message = resultsMessages.leaderBoardResultFound;
+      }
       res.status(201).send(successArrRes);
     } catch (error) {
       errorArrRes.message = error.message;

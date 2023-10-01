@@ -14,7 +14,7 @@ const {
   successObjectResponse,
   errorObjectResponse,
 } = require('../utils/response');
-const { IsNotNullOrEmpty } = require('../utils/enum');
+const { IsNotNullOrEmpty, IsNullOrEmpty } = require('../utils/enum');
 const { languagesMessages, exercisesMessages } = require('../utils/messages');
 const Sequelize = require('sequelize');
 const db = require('../models/index');
@@ -27,7 +27,6 @@ module.exports = {
     let successObjectRes = successObjectResponse;
     let errorObjectRes = errorObjectResponse;
     try {
-      console.log(req.body);
       let newExerciseId = '';
       const languageDetails = await globalController.getModuleDetails(
         languagesModel,
@@ -207,26 +206,30 @@ module.exports = {
                 t1
               );
             }
-            if (req.body.name) {
+
               await globalController.updateExercise(
                 exerciseId,
                 { name: req.body.name , exerciseWeightage: req.body.exerciseWeightage},
                 t1
               );
-            }
+            
           }
         );
       } else {
         throw new Error(exercisesMessages.exerciseNotFound);
       }
-      successObjectRes.message = exercisesMessages.exerciseUpdateSuccess;
-      successObjectRes.data = await globalController.getModuleDetails(
+      const updatedExerciseDetails = await globalController.getModuleDetails(
         exercisesModel,
         'findOne',
         { id: exerciseId },
         ['id', 'name', 'exerciseWeightage', 'activated', 'deleted'],
         true
       );
+      if(updatedExerciseDetails.deleted!==false){
+        await globalController.updateExerciseTotalMarks(exerciseId);
+      }
+      successObjectRes.message = exercisesMessages.exerciseUpdateSuccess;
+      successObjectRes.data = updatedExerciseDetails;
       res.status(201).send(successObjectRes);
     } catch (error) {
       errorObjectRes.message = error.message;
@@ -265,6 +268,7 @@ module.exports = {
             {   
               model: questionsModel,
               attributes: ['id'],
+              required : false
             },{
               model : resultsModel,
               attributes:['obtainedMarks'],
@@ -273,18 +277,23 @@ module.exports = {
             }
           ],
           [['updatedAt', 'DESC']],
+          
         );
-        exercisesDetails = exercisesDetails.map((item) => ({
-          exerciseId : item.id,
-          exerciseName : item.name,
-          exerciseWeightage :item.exerciseWeightage ,
-          activated  : item.activated,
-          deleted : item.deleted , 
-          questions : item.questions,
-          userObtainedMarks: IsNotNullOrEmpty(item.results[0]) ? item.results[0]['obtainedMarks'] : 0
-        }));
-        successArrRes.message = exercisesMessages.exercisesFound;
-        successArrRes.data = exercisesDetails;
+        if(IsNullOrEmpty(exercisesDetails)){
+          throw new Error(exercisesMessages.exerciseNotFound);
+        }else{
+          exercisesDetails = exercisesDetails.map((item) => ({
+            exerciseId : item.id,
+            exerciseName : item.name,
+            exerciseWeightage :item.exerciseWeightage ,
+            activated  : item.activated,
+            deleted : item.deleted , 
+            questions : item.questions,
+            userObtainedMarks: IsNotNullOrEmpty(item.results[0]) ? item.results[0]['obtainedMarks'] : 0
+          }));
+          successArrRes.message = exercisesMessages.exercisesFound;
+          successArrRes.data = exercisesDetails;
+        }
       } else {
         throw new Error(languagesMessages.languageNotFound);
       }

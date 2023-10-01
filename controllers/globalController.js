@@ -351,7 +351,6 @@ module.exports = {
                 { transaction: t1 }
               )
               .then((updatedUserExerciseResult) => {
-                console.log('updatedUserExerciseResult',updatedUserExerciseResult)
                 returnState = true;
               })
               .catch(async (error) => {
@@ -373,8 +372,6 @@ module.exports = {
                 { transaction: t1 }
               )
               .then((newExerciseResult) => {
-                console.log('newExerciseResult',newExerciseResult)
-
                 if (newExerciseResult.id) {
                   returnState = true;
                 } else {
@@ -397,6 +394,9 @@ module.exports = {
     }
   },
 
+  /*
+  * check Exercise Activate True Condition
+  */
   async checkExerciseActivateTrueCondition(exerciseId, weightage){
     try {
       const questionDetails = await this.getModuleDetails(questionsModel,'findAll',{exerciseId: exerciseId, activated:true, deleted:false},['id'],true);
@@ -446,7 +446,7 @@ try {
           deferrable: Sequelize.Deferrable.SET_DEFERRED,
         },
         async (t1) => {
-          await exercisesModel.update({totalMarks:exerciseTotalMarks}, {transaction:t1}).catch((error)=>{
+          await exercisesModel.update({totalMarks:exerciseTotalMarks},{where : { id : exerciseId}}, {transaction:t1}).catch((error)=>{
             throw new Error(error.message);
           });
         });

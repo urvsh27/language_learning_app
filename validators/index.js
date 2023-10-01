@@ -7,6 +7,7 @@ const exercisesUpdate= require('./exercisesUpdate.validator');
 const questionCreate = require('./questionCreate.validator');
 const userPreference = require('./userPreference.validator');
 const endQuiz = require('./endQuiz.validator');
+const questionUpdate = require('./questionUpdate.validator');
 module.exports = {
     register,
     login,
@@ -15,5 +16,6 @@ module.exports = {
     exercisesUpdate,
     questionCreate,
     userPreference,
-    endQuiz
+    endQuiz,
+    questionUpdate
 };

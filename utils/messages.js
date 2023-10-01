@@ -49,6 +49,7 @@ const exercisesMessages = {
   exerciseUpdateSuccess : 'Exercises updated successfully.',
   exerciseActivateFail : 'Failed to activate exercise.',
   deActivateExercise : 'Deactivate exercise before deleting.',
+  userExerciseDataNotExists : 'User exercise data does not exist.',
  };
 
 
@@ -86,6 +87,7 @@ const resultsMessages ={
   resultUpdateFail: 'Failed to update result.',
   resultUpdateSuccess: 'Result updated successfully.',
   resultGenerateFail: 'Failed to generate result.',
+  leaderBoardResultFound : 'Leaderboard result found successfully.',
 }
 
 
