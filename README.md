@@ -36,7 +36,7 @@
 
 Note : 
 - The response time of the apis might be slower as I am using neon tech' online PostgreSQL.
-- Let me know, If you're facing any issues in setting up the project or any database rrors.
+- Let me know if you're facing any errors in setting up the project or in the database.
 - Contact :
   📩 - urvishfunnels@gmail.com
   📞 - 9512120054
