@@ -1,0 +1,121 @@
+.live-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    z-index: 1;
+    margin : 10px;
+  }
+  
+  .live {
+    background-color: green;
+    color: white;
+  }
+  
+  .not-live {
+    background-color: rgb(255, 0, 0);
+    color: white;
+  }
+
+.question-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; 
+  justify-content: center; 
+  margin-top: 20px;
+}
+
+.question-card {
+  border: solid black;
+  border-width: 2px 5px 5px 2px; 
+  border-radius: 10px;
+}
+
+
+.question-title {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.question-marks {
+  font-size: 1rem;
+  color: #777;
+}
+
+.question-buttons{
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.question-edit-button {
+  background-color: #007bff; 
+  color: #fff;
+}
+
+.question-edit-button:hover {
+  background-color: #0056b3; 
+}
+
+
+.question-delete-button{
+  background-color: #4f4f4f; 
+  color: #fff;
+}
+
+.question-delete-button:hover{
+  background-color: rgb(61, 61, 61); 
+}
+
+.question-deActivate-button {
+  background-color: #e20000; 
+  color: #fff;
+}
+
+.question-deActivate-button:hover{
+  background-color: #b70000;
+
+}
+
+.question-activate-button {
+  background-color: #008000; 
+  color: #ffffff;
+  
+}
+
+.question-activate-button:hover{
+  background-color: #006200;
+}
+
+.manage-questions-button{
+  background-color: #000000; 
+  color: #ffffff;
+}
+
+.manage-questions-button:hover{
+  background-color: #424242; 
+  color: #ffffff;
+}
+
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px; 
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+}
+
