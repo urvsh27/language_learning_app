@@ -25,7 +25,7 @@ const Home = () => {
             </h4>
           </div>
           <div className="col-md-6">
-            <div className="home-card sidebar-display">
+            <div className="card home-card sidebar-display">
               <img
                 src="https://cdn.dribbble.com/users/2125046/screenshots/15342146/media/277c1d4f7edb07af836f4aca0573ad08.png"
                 style={{ maxWidth: "100%", height: "auto" }}
