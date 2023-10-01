@@ -79,11 +79,11 @@ const Questions = () => {
       .then((response) => {
         toast.success(response.data.message);
         setNewQuestionName('');
-        setOptions(['', '', '', '']); // Reset options
-        setCorrectOption('A'); // Reset correct option
+        setOptions(['', '', '', '']); 
+        setCorrectOption('A'); 
         getQuestions();
         setLoader(false);
-        setMarks(0); // Reset marks
+        setMarks(0); 
       })
       .catch((error) => {
         if (error.response && error.response.data.status === '0') {

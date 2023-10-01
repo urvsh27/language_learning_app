@@ -1,30 +1,29 @@
-/* home.css */
 .home-display {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* You can adjust the height as needed */
+  height: 100vh; 
 }
 
 .hero-div {
   display: flex;
-  flex-direction: row; /* This sets the text and image side by side */
+  flex-direction: row; 
   align-items: center;
-  width: 80%; /* Adjust the width as needed */
-  max-width: 1200px; /* Set a max width for responsiveness */
-  margin: 0 auto; /* Center the content horizontally */
+  width: 80%; 
+  max-width: 1200px;
+  margin: 0 auto; 
 }
 
 .hero-text {
-  font-size: 24px; /* Adjust the font size as needed */
-  padding: 20px; /* Add padding to the text */
+  font-size: 24px; 
+  padding: 20px;
 }
 
 .hero-image {
-  max-width: 50%; /* Ensure the image doesn't exceed its container */
-  height: auto; /* Maintain the image's aspect ratio */
+  max-width: 50%; 
+  height: auto; 
   padding: 20px;
-  border-radius: 30px; /* Add padding to the image */
+  border-radius: 30px; 
 }
 
 
@@ -43,14 +42,14 @@ h1 {
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  height: 300px; /* Set a fixed height for the card */
+  height: 300px;
 }
 
 .sidebar-display {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; /* Ensure the content is vertically centered */
+  height: 100%; 
 }
 
 .left-text-div{

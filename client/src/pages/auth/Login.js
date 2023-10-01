@@ -124,7 +124,6 @@ const Login = () => {
                   </span>
                 </div>
               </div>
-              {/* <div className="container">Password: 8+ characters,mix of upper/lowercase,number, special character. </div> */}
               {!buttonLoader ? (
                 <>
                 <button

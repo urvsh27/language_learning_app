@@ -68,8 +68,7 @@ const LanguagePreference = () => {
           toast.error(error.message);
         }
       });
-  }, []); // Empty dependency array ensures the effect runs once after the initial render
-
+  }, []); 
   return (
     <DashboardScreen
       title={'Language preference'}

@@ -20,7 +20,6 @@ const AuthProvider = ({ children }) => {
     setAuth({ userDetails : userDetails, token : accessToken , userRoles : userRoles});
   }
   }, [] )
-  /* [auth] => if you write auth in parenthesis array if will call useEffect again and again */
 
   return (
     <AuthContext.Provider value={[auth, setAuth]}>
