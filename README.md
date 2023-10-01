@@ -34,6 +34,9 @@
 20. User proficiency has been calculated by ((obtained marks/ total marks) * exerciseWeightage).
 21. On admin panel admin can view the all users list.
 
+Postman collection link : 
+https://api.postman.com/collections/24529476-593677a2-669c-4565-b009-6bbd0266716f?access_key=PMAT-01HBP2KXJAG3DQPG0HKDX1QAGB
+
 Note : 
 - The response time of the apis might be slower as I am using neon tech' online PostgreSQL.
 - Let me know if you're facing any errors in setting up the project or in the database.
