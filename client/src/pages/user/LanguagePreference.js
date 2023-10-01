@@ -116,6 +116,7 @@ const LanguagePreference = () => {
                             Open exercises
                           </div>
                         </div>
+                        <div className="d-flex gap-1">
                         <div
                             className="btn btn-outline-primary mt-2"
                             onClick={() =>
@@ -126,6 +127,18 @@ const LanguagePreference = () => {
                           >
                             Open leaderboard
                           </div>
+                          <div
+                            className="btn btn-outline-primary mt-2"
+                            onClick={() =>
+                              navigate(
+                                `/user-progress?languageId=${language.languageId}&languageName=${language.languageName}`
+                              )
+                            }
+                          >
+                            Check your progress
+                          </div>
+                        </div>
+                 
                       </>
                     ) : (
                       <div className="d-flex flex-row gap-1">

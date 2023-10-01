@@ -58,5 +58,11 @@ router.get('/quiz-questions/:id', authController.jwtUserAuthValidate, validator(
 router.post('/end-quiz/:id', authController.jwtUserAuthValidate,validator('moduleId'), validator('endQuiz'),quizzesController.endQuiz);
 // Get leaderboard by language
 router.get('/leaderboard/:id', authController.jwtUserAuthValidate,validator('moduleId'),resultsController.getUsersLeaderboard);
+// Get single user progress by language
+router.get('/user-progress/:id', authController.jwtUserAuthValidate,validator('moduleId'),resultsController.geUserProgress);
+// Delete single user progress by language
+router.post('/reset-progress/:id', authController.jwtUserAuthValidate,validator('moduleId'),resultsController.deleteUserProgress);
+// Get all users
+router.get('/users', authController.jwtAdminAuthValidate,usersController.getAllUsers);
 
 module.exports = router;

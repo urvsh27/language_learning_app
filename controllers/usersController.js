@@ -33,6 +33,7 @@ const {
 } = require('../utils/messages');
 const Sequelize = require('sequelize');
 const db = require('../models/index');
+const { Op } = require('sequelize');
 
 module.exports = {
   /*
@@ -272,11 +273,16 @@ module.exports = {
       const usersDetails = await globalController.getModuleDetails(
         usersModel,
         'findAll',
-        { activated: true, deleted: false },
+        {
+          email: {
+            [Op.not]: 'admin@gmail.com',
+          },
+        },
         [
           ['id', 'userId'],
           ['name', 'userName'],
           ['email', 'userEmail'],
+          'activated'
         ],
         true
       );

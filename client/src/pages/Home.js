@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { useAuth } from '../context/Auth';
 import './home.css';
-
+import homePng from '../images/home.png';
 const Home = () => {
   const [auth, setAuth] = useAuth();
   setAuth(auth);
@@ -14,10 +14,7 @@ const Home = () => {
           <div className="col-md-6 text-center left-text-div">
             <h1>Welcome to the Quiz App 👋🏻</h1>
             <h4>
-
-             A task for emitrr.
-             <br></br>
-             Read more about this quiz app Github. 
+            Read more about this quiz app Github. 
              <br></br>
              👉 <a href="https://github.com/urvsh27/quiz_app"
               className="button primary-button mr-3"
@@ -27,7 +24,7 @@ const Home = () => {
           <div className="col-md-6">
             <div className="card home-card sidebar-display">
               <img
-                src="https://cdn.dribbble.com/users/2125046/screenshots/15342146/media/277c1d4f7edb07af836f4aca0573ad08.png"
+                src={homePng}
                 style={{ maxWidth: "100%", height: "auto" }}
                 alt="Quiz App"
               />

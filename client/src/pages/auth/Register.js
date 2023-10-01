@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import BarLoader from 'react-spinners/BarLoader';
 import { NavLink } from 'react-router-dom';
 import { backendApi } from '../../utils/constants';
-import './auth.css'; 
+import './auth.css';
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,12 +15,14 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+  const [buttonLoader, setButtonLoader] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const handleRegister = async (e) => {
+    setButtonLoader(true);
     e.preventDefault();
     try {
       const registerResponse = await axios.post(`${backendApi}register`, {
@@ -38,6 +40,7 @@ const Register = () => {
         }, 4000);
       }
     } catch (error) {
+      setButtonLoader(false);
       if (error.response && error.response.data.status === '0') {
         toast.error(error.response.data.message);
       } else {
@@ -122,15 +125,28 @@ const Register = () => {
                   </span>
                 </div>
               </div>
-              <button
-                type="submit"
-                className="btn btn-dark button-submit"
-                style={{ width: '300px' }}
-              >
-                Register
-              </button>
+              {!buttonLoader ? (
+                <>
+                  <button
+                    type="submit"
+                    className="btn btn-dark button-submit"
+                    style={{ width: '300px' }}
+                  >
+                    Register
+                  </button>
+                </>
+              ) : (
+                <>
+                  <>
+                    <center className="m-3">
+                      <BarLoader height={4} width={200} />
+                    </center>
+                  </>
+                </>
+              )}
               <NavLink to="/login" className="nav-link mt-3 text-center">
-                Already have an account? <span className="text-primary">Login</span>
+                Already have an account?{' '}
+                <span className="text-primary">Login</span>
               </NavLink>
             </form>
           </>
