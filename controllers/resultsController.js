@@ -1,12 +1,7 @@
 // Import models
 const usersModel = require('../models').users;
-const rolesModel = require('../models').roles;
-const userRolesModel = require('../models').user_roles;
-const userPreferencesModel = require('../models').user_preferences;
-const languagesModel = require('../models').languages;
 const exercisesModel = require('../models').exercises;
 const resultsModel = require('../models').results;
-const questionsModel = require('../models').questions;
 
 //Import controllers
 const globalController = require('./globalController');
@@ -15,20 +10,15 @@ const globalController = require('./globalController');
 const {
   successArrayResponse,
   errorArrayResponse,
-  successObjectResponse,
-  errorObjectResponse,
+
 } = require('../utils/response');
 const { IsNotNullOrEmpty } = require('../utils/enum');
 const {
-  languagesMessages,
-  questionsMessages,
-  exercisesMessages,
-  quizzesMessages,
-  generalMessages,
   resultsMessages,
 } = require('../utils/messages');
 const Sequelize = require('sequelize');
 const db = require('../models/index');
+const { Op } = require('sequelize');
 
 module.exports = {
   async getUsersLeaderboard(req, res) {
@@ -48,7 +38,9 @@ module.exports = {
         let usersDetails = await globalController.getModuleDetails(
           usersModel,
           'findAll',
-          { activated: true, deleted: false },
+          { email: {
+            [Op.not]: 'admin@gmail.com'
+          }, activated: true, deleted: false },
           ['id', 'name'],
           true
         );
