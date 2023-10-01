@@ -135,7 +135,7 @@ const Exercises = () => {
       });
   };
 
-    //Function to redirect question tab
+    // Function to redirect question tab
   const handleManageQuestions = (exerciseId, activated) =>{
     if(activated){
       toast.error('Deactivate Exercise to manage questions.');
