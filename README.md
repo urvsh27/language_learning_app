@@ -1,15 +1,14 @@
 # Quiz app 🔥
 
 # Tech stack : PostgreSQL, Nodejs, Express js, React js
-1. git clone
-2. npm install
-3. copy the .env file from envFile
-4. cd client
-5. npm install
-6. npm run start
-7. move back to server
-8. npm run start
-11. I have added the login details on Admin and User Login Screen.
+1. Clone this repository
+2. Install the node modules by command : ### `npm install`
+3. copy envFile text and paste it in the .env file
+4. Then run the server : ### `npm run start`
+5. move to client folder : ### `cd client`
+6. Install the node modules : ### `npm install`
+7. Start the client : ### `npm run start`
+8. I have added the login details on Admin and User Login Screen.
     
 # Working  
 1. So, I have used PERN stack for this particular app and sequelize as an ORM.
