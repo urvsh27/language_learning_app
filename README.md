@@ -2,12 +2,12 @@
 
 # Tech stack : PostgreSQL, Nodejs, Express js, React js
 1. Clone this repository
-2. Install the node modules by command : ### `npm install`
+2. Install the node modules by command : `npm install`
 3. copy envFile text and paste it in the .env file
-4. Then run the server : ### `npm run start`
-5. move to client folder : ### `cd client`
-6. Install the node modules : ### `npm install`
-7. Start the client : ### `npm run start`
+4. Then run the server : `npm run start`
+5. move to client folder : `cd client`
+6. Install the node modules : `npm install`
+7. Start the client : `npm run start`
 8. I have added the login details on Admin and User Login Screen.
     
 # Working  
