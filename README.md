@@ -8,7 +8,8 @@
 5. move to client folder : `cd client`
 6. Install the node modules : `npm install`
 7. Start the client : `npm run start`
-8. I have added the login details on Admin and User Login Screen.
+8. Now you're ready to use the app
+9. I have added the login details on Admin and User Login Screen
     
 # Working  
 1. So, I have used PERN stack for this particular app and sequelize as an ORM.
